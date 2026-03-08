@@ -28,6 +28,46 @@ function askQuestion(query: string): Promise<string> {
   });
 }
 
+function normalizeTopicForFilename(topic: string): string {
+  const cleaned = topic
+    .trim()
+    .replace(/[<>:"/\\|?*\u0000-\u001F]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+
+  if (!cleaned) {
+    return 'research';
+  }
+
+  return cleaned.slice(0, 80);
+}
+
+function formatTimestamp(date = new Date()): string {
+  return date.toISOString().replace(/\.\d{3}Z$/, 'Z').replace(/:/g, '-');
+}
+
+async function getUniqueOutputFilename(
+  kind: 'report' | 'answer',
+  topic: string,
+): Promise<string> {
+  const topicSlug = normalizeTopicForFilename(topic);
+  const timestamp = formatTimestamp();
+  const baseName = `${topicSlug}-${kind}-${timestamp}`;
+  let filename = `${baseName}.md`;
+  let suffix = 2;
+
+  while (true) {
+    try {
+      await fs.access(filename);
+      filename = `${baseName}-${suffix}.md`;
+      suffix += 1;
+    } catch {
+      return filename;
+    }
+  }
+}
+
 // run the agent
 async function run() {
   console.log('Using model: ', getModel().modelId);
@@ -91,7 +131,7 @@ ${followUpQuestions.map((q: string, i: number) => `Q: ${q}\nA: ${answers[i]}`).j
 
   log(`\n\nLearnings:\n\n${learnings.join('\n')}`);
   log(`\n\nVisited URLs (${visitedUrls.length}):\n\n${visitedUrls.join('\n')}`);
-  log('Writing final report...');
+  log('Writing final output...');
 
   if (isReport) {
     const report = await writeFinalReport({
@@ -100,18 +140,20 @@ ${followUpQuestions.map((q: string, i: number) => `Q: ${q}\nA: ${answers[i]}`).j
       visitedUrls,
     });
 
-    await fs.writeFile('report.md', report, 'utf-8');
+    const reportFilename = await getUniqueOutputFilename('report', initialQuery);
+    await fs.writeFile(reportFilename, report, 'utf-8');
     console.log(`\n\nFinal Report:\n\n${report}`);
-    console.log('\nReport has been saved to report.md');
+    console.log(`\nReport has been saved to ${reportFilename}`);
   } else {
     const answer = await writeFinalAnswer({
       prompt: combinedQuery,
       learnings,
     });
 
-    await fs.writeFile('answer.md', answer, 'utf-8');
+    const answerFilename = await getUniqueOutputFilename('answer', initialQuery);
+    await fs.writeFile(answerFilename, answer, 'utf-8');
     console.log(`\n\nFinal Answer:\n\n${answer}`);
-    console.log('\nAnswer has been saved to answer.md');
+    console.log(`\nAnswer has been saved to ${answerFilename}`);
   }
 
   rl.close();

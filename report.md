@@ -1,194 +1,668 @@
-# A Comprehensive Analysis of NVIDIA's RTX 5000 Series for Gaming Performance
+# 大众公用（600635.SH / 01635.HK）一年期持有评估与操作方案（成本6.50；止损5%；目标收益20%）
 
-This report provides an in-depth technical and comparative analysis of NVIDIA’s new RTX 5000 series GPUs, with a focus on pure gaming performance. It covers architectural innovations, benchmarking results, design optimizations, and market positioning relative to both previous RTX generations and competing products such as AMD’s RX 9000 series. The following sections detail the extensive research conducted, incorporating insights from rigorous benchmarks, innovative engineering strategies, and comparative evaluations.
-
----
-
-## 1. Introduction
-
-The RTX 5000 series marks a significant generational leap for NVIDIA in catering specifically to high-performance gaming. This new lineup targets enthusiasts and professionals alike, delivering improved frame rates, cutting-edge AI upscaling, and state-of-the-art ray tracing capabilities. As a follow-up to prior queries comparing the RTX 5000 series to its predecessors and to AMD's upcoming offerings, this report aggregates all recent findings to offer an exhaustive analysis of its performance benefits.
+> 适用前提：你计划**一年内**完成交易闭环；可承受最大回撤/止损**5%**；收益目标**20%**；资金为**自有资金**；新手、暂不需要流动性。
 
 ---
 
-## 2. Architectural Innovations and Design Enhancements
+## 1. 结论先行：这不是“纯公用事业防御股”，而是“燃气现金流 + 金融/创投波动”的混合体
 
-### 2.1. New Blackwell Architecture
+**大众公用的底色是城市燃气（收入高度集中），但利润弹性在近年更明显由“联营/金融资产估值与投资收益”驱动。**
 
-- **Key Features:**
-  - Integration of 5th Generation Tensor Cores and 4th Generation RT Cores.
-  - Adoption of GDDR7 memory (up to 32GB in flagship models), offering up to 1792 GB/sec bandwidth.
-  - Enhanced AI driven features with DLSS 4's Multi Frame Generation technology that utilizes a novel transformer model and an integrated AI management processor (AMP based on RISC-V).
+- 如果你把它当作“稳分红、低波动的公用事业”，会出现预期偏差：
+  - 公司近年分红**稳定但股息率偏低**（约0.5%量级）；
+  - 估值（尤其扣非口径）并不便宜于行业；
+  - 一年内股价区间波动较大（参考区间约 **3.24–8.40**）。
+- 若你接受其“**主业相对稳 + 金融/创投带来利润与估值波动**”的属性，并用纪律化止损止盈管理，它更像是：
+  - **底仓**（燃气、水务等特许经营带来稳定性）
+  - 叠加一个“**金融资产/创投收益的看涨期权**”（带来阶段性行情与龙虎榜资金博弈）。
 
-### 2.2. Process Node Evolution
+**对你的一年期目标（+20% / -5%）而言：**
+- 更合适的策略不是“长期躺平”，而是**事件驱动 + 资金面/估值约束 + 严格风控**。
+- 你成本6.50，5%止损对应约 **6.18**；目标+20%对应约 **7.80**。这两个价格点可以直接落地为交易纪律（后文给出分步执行方案）。
 
-- Although the physical node change from TSMC N4 to N4P only provides a ~5% improvement, this modest uplift is compensated with significant architectural tweaks such as:
-  - Increased number of CUDA cores (up to 33% more in some instances compared to the RTX 4090).
-  - Advanced power distribution management via a 30-phase VRM design in flagship models (e.g., the RTX 5090 Founders Edition).
-
-### 2.3. PCB and Cooling Innovations
-
-- **Compact Two-Slot Design:**
-  - Despite increased power envelopes (e.g., RTX 5090’s 575W vs. RTX 4090’s 450W), the engineering team managed to design a dense PCB that maintains a 2-slot footprint.
-
-- **Enhanced Thermal Management:**
-  - Implementation of dual flow-through cooling systems with liquid metal and triple-walled gaskets resulted in peak temperatures stabilized around 72°C (with even the flagship RTX 5090 successfully operating under heavy 4K loads).
-  - Advanced measures like vapor-chambers and premium phase-change thermal pads further ensure that thermal-efficiency is maintained even under high power draw conditions.
-
-- **Acoustic Engineering:**
-  - Despite the higher TDP and increased power consumption (e.g., idle power draw for the RTX 5090 is 46W compared to 28–29W for the RTX 4090), acoustic performance is optimized to around 32.5 dBA at 1 meter via targeted airflow and noise reduction strategies.
+> 重要提醒：以下为研究型分析与操作框架，不构成任何保证收益的承诺。
 
 ---
 
-## 3. Gaming Performance Benchmarks
+## 2. 公司与业务结构：燃气收入占比接近“单一主业”，但资本/金融资产决定利润波动
 
-The primary focus being gaming performance, this section incorporates multiple performance metrics and independent benchmarks from both synthetic tests (such as Blender and 3DMark) and popular gaming titles like Resident Evil 4, Horizon Forbidden West, Cyberpunk 2077, and Final Fantasy XVI.
+### 2.1 上市与基本信息
+- 公司：上海大众公用事业（集团）股份有限公司
+- A股：600635；H股：01635
+- 成立日期：1993-03-04
+- 官网：`www.dzug.cn`；邮箱：`master@dzug.cn`；电话：021-64280679
 
-### 3.1. Relative Performance Gains Over Previous Generations
+### 2.2 主营结构（高度集中于城市燃气）
+研究材料显示其主营收入构成**高度集中在燃气**：
+- 截至 **2025-09-30** 的主营收入构成口径：
+  - **燃气销售 89.67%**（另有口径约89.7%）
+  - 污水处理 4.17%
+  - 施工业 1.80%
+  - 运输业 1.75%
+  - 商业 1.38%
+  - 其他 0.90%
+  - 市政隧道运营 0.29%
+  - 金融业 0.05%
 
-- **RTX 5090:**
-  - Delivers roughly 30–35% higher performance than the RTX 4090 in pure 4K, non-ray tracing gaming.
-  - Offers 20–50% improvements in average frame rates across diverse gaming titles.
-  - Demonstrates a 32% improvement in ray tracing performance alongside up to a two-fold increase in performance in specific titles.
-  - Trade-off: Elevated power draw (575W) necessitates scrutinizing efficiency and overall FPS-per-watt metrics.
+> 市场舆情（股吧）还出现过“燃气占比92.11%”等说法，但属于非公告口径，**不建议作为决策依据**。
 
-- **RTX 5080 and RTX 5070-Ti:**
-  - The RTX 5080 shows about a 15% performance uplift (both in rasterization and in ray tracing tasks) relative to the previous generation’s 4080-Super series.
-  - The RTX 5070-Ti positions itself as a best-value proposition for gamers by delivering approximately 20% higher performance than the older 4070-Ti-Super at a lower price point ($749.99) while boasting 16GB VRAM, making it particularly effective for high-resolution gaming.
+### 2.3 核心经营资产：区域特许+管网规模
+- 上海大众燃气：
+  - 上海浦西南部约**40%**市场份额（资料口径）
+  - 服务近**200万户**（另有口径约187万户）
+  - 地下管网约**5,380公里**（另有口径提及约6,900公里/或约7,000公里）
+  - 2024年销售天然气约**10.33亿立方米**（集团披露燃气板块2024售气量合计**14.51亿立方米**）
+- 南通大众燃气：
+  - 南通市区“唯一/主要”管道燃气供应商，市占率口径可达“**超过99%**”
+  - 服务约**70–75万**用户
+  - 管网超**3,000公里**
+  - 2024年销售约**4.2亿立方米**（同比约+10%）
 
-### 3.2. Technical Specifications and Numbers
+### 2.4 环境市政与隧道：特许经营的“类债券现金流”属性
+- 污水处理：政府特许经营模式
+  - 与地方政府签署《特许经营协议》
+  - 处理单价由地方价格主管部门核定
+  - 按“实际处理量”拨付
+  - 上海+江苏合计运营**9座**污水厂
+  - 总处理能力约**44–46.5万吨/日**（不同材料口径：46.5万吨/日；另口径约44万吨/日）
+  - 其中大众嘉定厂：
+    - 能力口径存在差异：**17.5万吨/日**（一处材料）/ **20万吨/日**（另一处材料）
+    - 出水达到上海最高 **一级A+**（资料表述）
+- 市政隧道：BOT运营上海翔殷路隧道
+  - 年车流近**2,350万辆次**
 
-Table below summarizes the key specifications and performance benchmarks for representative models in the series:
+### 2.5 “公用事业 + 金融创投”双轮：利润弹性来自金融资产/联营公司
+- 公司参股深圳市创新投资集团有限公司（“深创投”）
+  - 资料出现“直接持股**10.80%**（第二大股东口径）”的说法
+- 公司拥有全资直投平台“大众资本”
+- 资料称其投资覆盖银行、保险、券商、基金、拟上市公司等，并“投资培育出超过200家上市企业”
+- 搜狐等资料提到间接投资摩尔线程、宇树科技等硬科技项目，并提及2025年前三季度投资收益同比激增321%（提示：此类“项目穿透”需进一步核验公告口径）
 
-| Model           | CUDA Cores | Boost Clock (GHz) | TGP (W) | Memory Configuration & Bandwidth                 | Performance Gains vs. Predecessor       |
-|-----------------|------------|-------------------|---------|--------------------------------------------------|-----------------------------------------|
-| RTX 5090        | 21,760+    | Higher (e.g., ~2.62 GHz similar or above) | 575     | 32GB GDDR7, 512-bit, up to 1792 GB/sec           | ~30–35% (raster), 27–35% (RT), significant DLSS gains |
-| RTX 5080        | 10,752     | 2.62              | 360     | High-bandwidth GDDR7                              | Roughly 15–20% higher FPS in 4K gaming    |
-| RTX 5070-Ti     | 8,960      | 2.45              | 300     | 16GB VRAM, GDDR7                                 | ~20% gain over 4070-Ti-Super              |
-
-These improvements are driven by higher core counts, enhanced architectural features, and tailored driver optimizations that have addressed frametime issues previously seen in titles like Alan Wake 2.
-
----
-
-## 4. AI and Upscaling Technologies
-
-### 4.1. DLSS 4 Multi Frame Generation
-
-- **Revolutionizing Frame Rates:**
-  - DLSS 4 leverages a transformer-based model combined with the inbuilt RISC-V based AMP to deliver enhanced multi-frame generation.
-  - This technology can boost performance by up to 40% in demanding, ray-traced scenes and even multiply frame rates by as much as 8X compared to traditional rendering methods.
-
-### 4.2. NVIDIA Reflex 2
-
-- **Latency Reduction:**
-  - NVIDIA Reflex 2 technology slashes input latency by up to 75%, ensuring a smoother and more responsive gaming experience, particularly in competitive gaming scenarios.
-
-### 4.3. Integration with AI-Driven Content Creation
-
-- While the primary focus here is gaming, it is important to note that these AI enhancements also accelerate creative workloads, making the RTX 5000 series a versatile choice for AI research and content production.
-
----
-
-## 5. Power Efficiency and Thermal Performance Considerations
-
-### 5.1. Power Consumption Trade-offs
-
-- The series, particularly the RTX 5090, sees significant increases in power draw (e.g., idle and load differences such as 46W idle power compared to 29W for the RTX 4090). The increase in power is justified by the raw performance gains but does come with questions regarding overall efficiency, especially in FPS-per-watt metrics.
-
-### 5.2. Thermal Efficiency Advances
-
-- **Innovative Cooling Techniques:** As outlined earlier, advanced cooling methods are crucial for stable performance at high power loads. The full flow-through cooling system ensures that despite the high TDP (up to 575W for the RTX 5090), steady-state operational temperatures remain near 72–77°C.
-
-- **Memory Thermal Characteristics:** Although the GPU core temperatures are well-managed, memory temperatures can occasionally peak up to 89–90°C under strenuous gaming loads, prompting further investigation into long-term memory reliability under prolonged usage conditions.
+**关键洞察：**
+- **收入**几乎由燃气贡献；
+- 但**利润**在某些阶段（例如2025Q1）主要由“权益法联营公司收益 + 金融资产公允价值变动/处置”贡献。
 
 ---
 
-## 6. Comparative Analysis with Predecessor and Competitor Products
+## 3. 财务表现与“盈利质量”：2025Q1利润暴增，但核心驱动并非主业收入增长
 
-### 6.1. Comparisons with Previous RTX Series Models
+### 3.1 2024年：收入基本平，归母小增，但扣非显著下滑
+2024年关键数据（年报摘要，审计为立信、标准无保留意见）：
+- 营业收入：**6,248,336,025.56元**（同比 **-0.86%**）
+- 归母净利润：**233,149,042.00元**（同比 **+9.69%**）
+- 扣非归母净利润：**206,570,454.53元**（同比 **-60.32%**）
+- 经营活动现金流净额：**405,521,711.80元**（同比 **-41.21%**）
+- 加权ROE：**2.78%**（同比 +0.21pct）
+- 基本/稀释EPS：**0.078968元**
 
-- **RTX 5000 vs. RTX 4000 Series:**
-  - The RTX 5000 series shows a marked performance uplift across the board. For instance, while the RTX 5090 pushes around 30–35% performance improvements, the RTX 5080 and 5070-Ti deliver gains of 15% and 20% over the 4080-Super and 4070-Ti-Super, respectively.
-  - The driver optimizations and thermal management technologies in the RTX 5000 series have also resolved issues seen in earlier generations (such as inconsistencies in frametime performance in certain titles).
+> 这里的矛盾点很重要：归母利润增长，但扣非大幅下滑，提示“非经常损益/投资收益”对利润结构影响不小。
 
-### 6.2. Competitive Dynamics with AMD’s RX 9000 Series
+### 3.2 2025Q1：营收略降，利润与现金流大增（但主要由投资/估值驱动）
+2025年第一季度报告（A股公告日期2025-04-30；H股同口径报告发布日期2025-04-29）：
+- 营业收入：**2,077,659,843.68元**（同比 **-4.11%**）
+- 归母净利润：**194,118,526.26元**（同比 **+601.27%**）
+- 扣非归母净利润：**108,467,981.24元**（同比 **+223.79%**）
+- 经营活动现金流净额：**399,823,226.43元**（同比 **+206.72%**）
+- 基本/稀释EPS：**0.0657元**（2024Q1：0.0094元）
+- 加权平均ROE：**2.25%**（同比 +1.92pct；2024Q1为0.33%）
 
-- **AMD’s Positioning:**
-  - Although AMD is rumored to be withdrawing from the ultra-high-end market, the RX 9000 series, exemplified by the RX 9070XT (with 16GB of VRAM), shows competitive pressure. Leaked 3DMark numbers indicate performance figures close to the RTX 5070 series, emphasizing raw performance metrics in 4K gaming.
-  - Differences in memory configuration (GDDR6 for AMD vs. GDDR7 for NVIDIA) and architectural paradigms (RDNA 4 vs. Blackwell) make efficiency and performance trade-offs a key battleground.
+**公司对“利润大增”的解释核心：**
+- 权益法公司**深创投**净利润同比增加
+- 权益法公司**上海华璨股权投资基金（有限合伙）**所持金融资产公允价值变动收益同比增加
 
-- **Strategic Considerations:**
-  - NVIDIA’s aggressive product segmentation, with pricing ranging from about $549 for lower-end models (e.g., RTX 5060) to nearly $2,000 for flagship variants (RTX 5090 Founders Edition), contrasts with AMD’s mid-range focus. This segmentation not only influences immediate gaming performance metrics but also longer-term upgrade cycles and market dynamics.
+### 3.3 非经常性损益与投资收益：2025Q1的关键“拆解”
+- 2025Q1非经常性损益合计：**85,650,545.02元**
+  - 其中最核心项：
+    - “非金融企业持有金融资产/金融负债公允价值变动及处置损益”：**86,895,401.29元**
+    - 政府补助：**3,696,583.66元**
+    - 资产处置损益：**426,884.30元**
+    - 减：所得税影响 **4,088,701.62元**
+    - 减：少数股东影响 **1,084,828.08元**
+- 利润表“投资收益”
+  - 2025Q1：**134,661,943.06元**
+  - 2024Q1：**-10,344,666.05元**
+  - 其中对联营/合营企业投资收益：
+    - 2025Q1：**122,875,429.27元**
+    - 2024Q1：**-24,959,694.24元**
+- “公允价值变动收益”
+  - 2025Q1：**11,870,678.81元**
+  - 2024Q1：**-5,208,206.82元**
 
----
+**结论（对一年期交易极关键）：**
+- 2025Q1归母利润同比+601%并非来自主业收入扩张（营收还在-4%），而是来自：
+  1) 权益法联营公司投资收益的同比跃升；
+  2) 金融资产公允价值变动/处置收益的改善。
 
-## 7. Market Impact, Value Trade-offs, and Future Outlook
+换句话说：这家公司在市场上的“估值与行情弹性”，更像一部分由“金融/创投资产净值波动”定价。
 
-### 7.1. Pricing Dynamics and Consumer Sentiment
+### 3.4 资产端抓手：权益法投资与金融资产规模不小
+截至2025-03-31：
+- 长期股权投资账面值：**7,488,797,109.50元**（2024-12-31：7,407,699,150.19元）
+- 其他权益工具投资：**99,217,762.46元**（2024-12-31：97,361,316.66元）
 
-- **Premium Pricing Concerns:**
-  - The RTX 5090 is priced around $1,999.99 compared to the RTX 4090 at $1,599.99. Although this represents a 25% higher price point, the performance boost (around 30–35%) may justify the extra cost for gamers demanding uncompromised 4K and ray-traced performance.
-
-- **Value Proposition of the RTX 5070-Ti:**
-  - At approximately $749.99 with 16GB VRAM, the RTX 5070-Ti emerges as a clear best-value option for high-resolution gaming. Its competitive pricing relative to its performance makes it attractive for gamers who balance performance with cost efficiency.
-
-- **Consumer Debates:**
-  - Forum discussions and expert reviews reveal a divided community, with some criticisms over aggressive segmentation and high flagship pricing, while others commend the tailored use cases such as AI-enhanced gaming and professional creative workflows.
-
-### 7.2. Future Technological Projections and Speculative Trends
-
-- **Improved Driver Optimizations:**
-  - Continued refinement in driver updates (addressing issues such as frametime inconsistencies) can further enhance performance in real-world gaming scenarios.
-
-- **Potential New Technologies:**
-  - Future iterations might explore even more efficient power scaling and cooling optimizations, perhaps integrating improved liquid cooling or hybrid passive-active cooling mechanisms to further lower the thermal footprint.
-  - Given the competitive dynamics, both NVIDIA and AMD may drive innovations around VRAM management and efficiency, which could significantly impact future pricing and segmentation strategies.
-
-- **AI and Upscaling Evolution:**
-  - DLSS and AI-based rendering technologies are likely to become even more integral to gaming performance enhancements, with potential upcoming improvements focusing on reducing latency further and increasing real-time fidelity.
-
----
-
-## 8. Conclusion
-
-The RTX 5000 series represents a robust and innovative leap in gaming GPU technology. Key takeaways include:
-
-- **Substantial Performance Increases:** A clear generational improvement over previous RTX models with substantial enhancements in 4K gaming, ray tracing, and AI-driven rendering.
-
-- **Innovative Architecture and Thermal Design:** The Blackwell architecture combined with advanced cooling solutions enables such high performance while mitigating thermal concerns typically associated with higher TDP values.
-
-- **Competitive Market Positioning:** NVIDIA’s strategy of aggressive segmentation and comprehensive performance gains reinforces its position, even as AMD’s RX 9000 series introduces competitive pressure in the mid-range segment.
-
-- **Trade-offs in Efficiency:** The significant improvements come at the cost of increased power consumption, raising considerations for both energy efficiency and operational heat management under sustained loads.
-
-This comprehensive analysis, rooted in extensive benchmarking and technical evaluations, should serve as a detailed reference for experts evaluating the RTX 5000 series for high-performance gaming. Future developments in AI rendering and thermal management are expected to further refine these impressive performance metrics, while competitive dynamics will continue to push the envelope in GPU technology.
+这两项是后续追踪“投资收益来自谁、估值波动来自哪些标的”的**资产端入口**。
 
 ---
 
-*Note: Some projections and speculations in this report are based on emerging trends and early benchmarking data. Continued monitoring of real-world performance and driver updates is recommended for an ongoing evaluation.*
+## 4. 杠杆、偿债与再融资：AAA评级背后关注点是“短债占比与再融资接续”
 
+### 4.1 资产负债率与短期到期压力
+截至2025-03-31（合并口径）：
+- 总资产：**23,259,122,083.01元**
+- 负债合计：**13,012,831,100.64元**
+- 资产负债率：约 **55.95%**（与公开财务指标页列示55.9472%一致）
 
-# End of Report
+短期压力信号：
+- 一年内到期的非流动负债：**2,747,656,041.97元**
+  - 较2024-12-31的 **1,921,285,508.93元**明显上升
+
+### 4.2 经营与筹资现金流：经营端改善，筹资端仍表现为“借新还旧+利息分红支出”
+2025Q1现金流（合并）：
+- 经营活动净流入：**399,823,226.43元**
+- 筹资活动：
+  - 取得借款收到的现金：**980,173,208.38元**
+  - 偿还债务支付的现金：**969,784,250.76元**
+  - 分配股利、利润或偿付利息支付的现金：**82,849,428.94元**（上年同期100,693,592.54元）
+    - 其中“子公司支付给少数股东的股利、利润”：**500,000.00元**
+  - 筹资活动产生的现金流量净额：**-74,084,164.01元**（上年同期-120,359,938.10元）
+
+这说明：公司整体资金链更像“稳定经营现金流 + 持续滚动融资管理”的结构。
+
+### 4.3 信用评级：AAA/稳定，但评级机构明确提示风险关注点
+中诚信国际《2025年度信用评级报告》（有效期2025-04-30至2026-04-30）：
+- 主体信用等级：**AAA**
+- 展望：**稳定**
+- 明确关注：
+  1) 母公司债务规模较大且短期债务占比高，**依赖再融资接续**
+  2) 第一大股东股权质押比例较高
+
+评级材料披露的2024合并口径（与年报数据口径存在不同来源汇总差异时，以此处为“评级披露口径”记录）：
+- 营收：**63.36亿元**
+- 净利润：**3.28亿元**
+- 经营现金流净额：**4.06亿元**
+- 资产负债率：**56.33%**
+- 总资本化比率：**44.24%**
+- 燃气板块：2024售气量**14.51亿立方米**、燃气销售收入**52.81亿元**
+
+### 4.4 债券融资与工具箱：公司债/境外债授权规模较大
+- 2023-03-30港交所“海外监管公告”：
+  - 拟发行公司债券及境外债：以发行后待偿还余额计合计不超过**人民币50亿元**（含外币折算）
+  - 固定期限债券期限不超过10年，也可为无固定期限品种
+  - 募资用途：偿还债务、补充流动资金、项目建设等
+  - 股东大会授权有效期：自2022年年度股东大会通过起**36个月**
+- 研究线索显示存在《2024年面向专业机构投资者公开发行公司债券（第一期）募集说明书》（PDF）与“拟发行30亿元公司债（小公募，2024-09-30项目状态提交注册）”的记录；这类文件通常详述业务、合同、关联交易、风险因素与成本结构（后续若要深挖物流配送/钢瓶配送毛利等，可从募集说明书与A股半年报对照口径切入）。
+
+### 4.5 历史压力案例：2022年盈利走弱与利息覆盖偏紧
+披露材料给出的近三年财务（用于理解“周期压力时公司会如何表现”）：
+- 2022年：
+  - 总资产235.83亿元、总负债140.06亿元、资产负债率59.39%
+  - 营业总收入58.54亿元
+  - 净利润-2.54亿元、归母净利润-3.33亿元（2021年归母净利润3.03亿元）
+  - EBITDA 3.78亿元、EBITDA利息保障倍数1.16（2021年3.20）
+
+这提示：当外部环境或投资端收益不利时，公司利润与利息覆盖存在阶段性压力，进一步解释了评级机构为何强调“短债+再融资接续”。
+
+---
+
+## 5. 股权结构、质押与治理：最大股东质押比例偏高；关联交易披露较规范但需跟踪
+
+### 5.1 股东与质押
+截至2025Q1末：
+- 普通股股东数：**150,631**
+- 上海大众企业管理有限公司（“大众企管”）合计持股约**18.84%**
+  - A股495,143,859股 + H股61,178,000股
+  - 其中A股质押：**327,000,000股**
+
+2026年质押动态（经济观察网等材料）：
+- 2026-01-28：控股股东新增质押**1,400万股**，累计质押**2.11亿股**
+  - 占其持股比例**39.20%**
+  - 用途：归还借款
+- 另有材料给出质押比例历史变动：
+  - 曾提到质押比例从44.59%降至33.44%（解除质押6000万股后仍质押1.8亿股，占其持股33.44%、占总股本6.10%；后续又再质押1700万股；再到2026-01-28新增质押）
+- 理杏仁口径（2026-02-27）：质押股数/前十大股东持股 **18.31%**（对应14.09亿元）
+- 实控人类型：**职工持股会（集体）**
+  - 公告披露：大众企管最终由“上海大众企业管理有限公司职工持股会”持有
+  - 第一大实益持有人：杨国平（持股会实益9.55%）
+
+**解读：**
+- 大股东高比例质押不是必然风险事件，但在市场波动或再融资收紧期会放大不确定性（补充质押/平仓压力/信心冲击）。
+- 你的止损5%相对紧，这类“质押+资金面”波动必须纳入风控。
+
+### 5.2 关联交易（持续关连交易）与治理细节
+- 2026-02-11披露H股持续关连交易：
+  - 上海青浦燃气有限公司（上海燃气持股51%，关连人士）
+  - 与公司间接附属公司上海大众运行物流配送有限公司（大众物流配送）签订
+  - 《2026年度液化气钢瓶用户配送及短驳运输委托服务合同》
+  - 合同期：2026-01-01至2026-12-31
+  - 年度上限：**1,800万元**
+  - 过往12个月同类交易金额约**1,400万元**
+  - 最高适用百分比率 >0.1% 且 <5%：需申报/年度审阅/公告，但豁免通函与独立股东批准
+- 治理要点：非执行董事赵曄青同时任上海燃气副总裁，对交易拥有重大权益并回避表决。
+- 另有运营事件：
+  - 2025-12-19大众物流配送与上海燃气崇明、上海东方能源签订瓶装LPG统一配送/委托配送服务合同
+  - 年度交易上限合计**8,050万元**（期限分别至2026年底/2027年底），属于持续关连交易；赵晔青回避表决。
+
+**解读：**
+- 关联交易本身金额不算巨大，但反映出公司在燃气产业链上与地方燃气集团存在业务耦合；
+- 披露与回避表决细节较完善，但长期仍建议你关注：交易定价机制、毛利率变化、成本费用归集与资产投入（钢瓶、车辆、仓储等）在财报的体现。
+
+---
+
+## 6. 分红与股东回报：分红率不低，但股息率偏低，更像“成长/弹性定价”而非“高息防御”
+
+### 6.1 2024年度分红预案与分红率
+2024年利润分配预案：
+- 拟每股派现金红利：**0.036元（含税）**
+- 以2024-12-31总股本2,952,434,675股测算：
+  - 合计派现：**106,287,648.30元（含税）**
+  - 占2024年度归母净利润：**45.59%**
+- 母公司报表期末未分配利润：**1,835,758,925.84元**
+
+### 6.2 近年现金分红实施记录（稳定）
+- 2025-07-25方案：每10股派0.36元（实施；登记日2025-07-31，除息日2025-08-01）
+- 2024-08-01：每10股派0.35元
+- 2023-08-11：每10股派0.30元
+- 历史上存在送转案例：2015-05-21每10股送5股并派0.35元
+
+### 6.3 股息率与市场定位
+- 理杏仁估值快照（2026-03-06）：股息率约**0.54%**
+- 行业对比（申万三级“燃气”口径，理杏仁）：行业股息率约**2.71%**
+
+**结论：**
+- 公司分红“稳定、分红率不低”，但因为估值与股价水平、以及盈利结构的波动，**股息率显著低于燃气行业均值**。
+- 如果你追求的是一年期20%收益，股息贡献可忽略，核心来自股价波动/估值重估与事件驱动。
+
+---
+
+## 7. 估值与市场分歧：相对行业“PE偏高、股息率偏低”；不同平台分位结论差异很大，需统一口径
+
+### 7.1 估值快照（2026-03-06，理杏仁）
+- 股价：**6.68元**；市值：**197.22亿元**
+- PE-TTM（扣非）：**33.85**
+- PB：**2.17**
+- 股息率：**0.54%**
+- 行业（燃气）对比：
+  - 行业PE：**23.86**
+  - 行业PB：**2.31**
+  - 行业股息率：**2.71%**
+
+**相对定价特征：**
+- PE（扣非）高于行业，股息率远低于行业——市场显然在为其“金融/创投弹性或资产重估叙事”付费。
+
+### 7.2 历史分位：理杏仁 vs 亿牛网（enu）差异来自“口径与算法”
+- 理杏仁（个股PE-TTM(扣非)）：
+  - 2026-03-06：PE 33.85，分位点**24.00%**
+  - 20%/50%/80%分位点：32.94 / 47.93 / -482.80
+  - 历史区间：最小26.86、平均60.40、最大142.93
+- 亿牛网（PE TTM，疑似剔除负数后统计）：
+  - 当前PE 31.83
+  - 近3/5/10年分位：47.3% / 73.2% / 89.4%
+  - 全历史分位：71%
+  - 统计：历史平均54.76、历史最高535.7、历史最低13.6
+  - 极值主要出现在2005–2006（2006最高535.7、2005最低13.6）；2024–2025也出现高波动（2024最高130.28、2025最高114.13、2025均值62.02、2025最低26.86）
+
+**为什么会差这么多（这是“你该用哪套分位来做决策”的关键）？**
+- 理杏仁公开解释了行业/指数PE口径差异来源：
+  1) A+H处理（中证倾向按A股市值比例折算净利润；理杏仁选择总市值加权）
+  2) 是否剔除负PE（中证剔除亏损公司；理杏仁选择不剔除）
+  3) 财报更新策略（中证/国证可能滞后；理杏仁采用“及时策略”）
+- 理杏仁分位点算法：分位点=(rank-1)/(N-1)，并对**负PE排序**做特殊规则（“亏得越多越靠后”），因此会出现80%分位点为负值等现象。
+- 理杏仁还提到对极端值的处理：
+  - 等权估值可能被极端负PE扭曲，因此提供“正数等权值”（剔除亏损公司）
+  - 算术平均中用“四分法”剔除极端值（PE剔除率约3%–8%）
+- 亿牛网在其他个股页面明确标注“剔除负数后数据”，因此其分位与均值更像是“正PE样本空间”的统计。
+
+**实务建议：**
+- 你的一年期操作，不需要陷入“哪个平台的分位更权威”，而应：
+  1) **固定一个口径**（建议你跟踪“扣非PE + PB + 股息率”三元组）
+  2) 将其作为“是否继续持有/是否加仓”的约束条件，而不是唯一买卖信号。
+
+### 7.3 市场估值争议与资产锚
+研究材料中出现两类“强叙事锚”：
+- “当前市值197.22亿元 vs 合理市值70–125亿元”的主观估值区间（来自媒体观点，非公告口径）
+- “管网资产重置价值超100亿元”的锚（同样属于外部估值说法）
+
+**解读：**
+- 这类锚点会在情绪行情中被反复引用，带来“资产重估”交易机会；
+- 但对一年期策略而言，你更应关注的是：
+  - 投资收益/公允价值变动是否持续兑现（利润表）
+  - 短债与再融资是否平稳（现金流+债券发行进展）
+  - 资金面是否形成趋势（龙虎榜/北向/两融）。
+
+---
+
+## 8. 资金面、交易行为与波动结构：一年内3.24–8.40的振幅，龙虎榜与两融/北向都曾显著参与
+
+### 8.1 价格与区间波动
+- 搜狐口径：一年价格范围约 **3.24–8.40**
+- 你成本6.50处于区间中上部——意味着：
+  - 若无新催化，回撤到成本附近甚至跌破并不罕见；
+  - 若出现主题/投资收益催化，上冲到7.8（+20%）也在历史波动能力范围内。
+
+### 8.2 关键异动日：龙虎榜揭示“资金博弈属性”
+- 2025-10-31（交易所披露，东方财富）：
+  - 收盘 **7.47元**，涨幅 **+10.01%**
+  - 涨幅偏离值10.82%，换手率 **24.23%**，成交额 **43.00亿元**
+  - 买入前五出现“沪股通专用”买入 **26,148.11万元（6.08%）**
+  - 当日净买入 **+41,923.72万元**（买入65,526.12万元，卖出23,602.40万元）
+- 2025-12-05：因“日收盘价格涨跌幅偏离值达7%”上榜
+  - 当日合计净卖出 **-15,197.12万元**
+  - 买入合计22,132.91万元，卖出合计37,330.03万元
+  - 买入席位含中信证券浙江分公司买入5,511.82万元（1.68%）
+  - “沪股通专用”当日既买入4,691.58万元（1.43%）也卖出10,390.46万元（3.16%）
+  - 卖出前五最大为申万宏源上海园石路卖出12,006.03万元（3.65%）
+
+**解读：**
+- 该股阶段性呈现“主题化与资金化”特征；
+- 北向在关键异动日参与度较高，但并非单向；
+- 对你这种“止损5%”策略而言，这种波动结构要求你必须预设规则，避免情绪化。
+
+### 8.3 资金流与两融：短期可能压制，也可能成为反身性推力
+- 2026-01-29（数据宝口径）：
+  - 收盘6.50元（-1.07%），换手率2.58%，成交额4.06亿元
+  - 主力资金当日净流出4,253.25万元；近5日净流出1.26亿元
+  - 截至2026-01-28两融余额8.67亿元（融资余额8.63亿元），融资余额环比-6.66%、近5日累计-1.88%
+- 理杏仁（2026-03-06）：
+  - 两融余额占流通A股市值 **5.37%**（融资余额8.62亿元、融券540.55万元）
+  - 陆股通持股占流通A股 **0.56%**（2025-12-31）
+- 搜狐还披露了融资融券日序列（2026-02-02至2026-02-13），但列名/单位需进一步核对后才能严谨引用；你可把它当作“短期资金行为监控线索”。
+
+**工具建议（便于你跟踪）：**
+- 东方财富数据中心提供：
+  - 资金流向全览（主力/超大单/大单/中单/小单净流入，16:05更新）
+  - 估值分析（PE(TTM)、PE(静)、PB、PEG、市现率、市销率等明细与行业排名）
+- 沪深港通资金总览提供北向/南向与个股季度排行（字段含持股数量、家数、市值、占比等；页面示例日期为2025-12-31）
+
+---
+
+## 9. 业绩展望与催化剂：2025年利润预告继续指向“金融资产收益”，但扣非增速更平缓
+
+### 9.1 2025年业绩预告（2026-01-29披露）
+- 预计2025年归母净利润：**3.50–5.00亿元**
+  - 同比：**+50.12% – +114.46%**
+- 预计2025年扣非归母净利润：**1.85–2.75亿元**
+  - 同比：**-10.44% – +33.13%**
+- 增长驱动解释：
+  - 公用事业主业稳定
+  - **联营公司持有的金融资产收益同比增加**
+
+**含义：**
+- “归母高增、扣非较平缓”延续了你在2025Q1看到的结构：利润弹性仍主要来自投资端。
+
+### 9.2 2025年前三季度快照（研究材料口径）
+- 2025年1–9月：营收45.96亿元（同比-2.65%）、归母净利润5.20亿元（同比+205.14%）
+
+注意：不同来源对同一期间指标可能口径不同（合并范围、一次性项目、统计口径），你在实操中应以公司正式定期报告为准。
+
+### 9.3 新能源与新产业：有“入口”，但短期更像期权而非确定性现金流
+研究材料显示公司层面提及重点关注：
+- 分布式光伏、碳中和、IDC（数据中心）、充电桩、氢能源等
+
+已落地案例：
+- 大众嘉定污水“污水+光伏”分布式光伏项目：
+  - 装机 **8.82MWp**，占用约6万㎡
+  - 预计年均发电量 **901.32万kWh**
+  - 模式：“自发自用、余电上网”
+  - 被表述为“上海最大水务-分布式光伏电站”
+  - 预计每年节约标煤2,710.27吨、减少CO₂排放约7,426.88吨
+
+平台推进：
+- 公司互动平台（2026-02-11口径）提到继续推进“绿行充电”平台整合新能源充电资源。
+
+**对一年期交易的现实意义：**
+- 新能源项目若无法在利润表中形成可见的规模贡献，更多体现为叙事与估值支撑；
+- 真正驱动仍更可能是“投资收益/公允价值变动”与市场风险偏好的共振。
+
+### 9.4 深创投“上市/递表”预期：市场会交易，但你应以可验证信息为准
+- 2026-03-06~03-08股吧舆情提到“深创投未见官方渠道披露IPO/港股上市递表或备案记录”等。
+
+**建议：**
+- 允许市场交易预期，但你的交易规则应绑定到：
+  1) 公司公告/定期报告里投资收益的持续性
+  2) 可验证的监管披露（若发生）
+  3) 股价突破/放量与资金净流入等“二级市场确认”。
+
+---
+
+## 10. 主要风险清单（与你的止损5%强相关）
+
+### 10.1 盈利结构风险：投资收益/公允价值变动不可线性外推
+- 2025Q1利润暴增的核心来自投资收益与公允价值变动改善；此类收益在市场环境变化时可能快速回落。
+
+### 10.2 再融资与短债滚动风险
+- 一年内到期非流动负债在2025Q1末升至27.48亿元级别（2,747,656,041.97元），评级机构亦提示“依赖再融资接续”。
+
+### 10.3 大股东高比例质押的尾部风险
+- 质押用途出现“归还借款”，若股价波动或融资环境变化，会引发市场对补充质押、股权稳定性的担忧。
+
+### 10.4 监管与特许经营风险
+- 燃气与污水处理均具政策/价格机制约束；污水处理单价由地方价格主管部门核定并按量拨付，存在回款节奏与政策调整风险。
+
+### 10.5 资金面风险：主题退潮/主力净流出会放大回撤
+- 2026-01-29出现主力净流出、两融余额下降等短期压力信号；该股又具有龙虎榜属性，资金进出会造成“快涨快跌”。
+
+---
+
+## 11. 针对你的一年期“可执行操作方案”（成本6.50；止损5%；目标20%）
+
+> 你的优势：自有资金、无需流动性、目标明确。
+> 你的短板：新手、缺少规则。
+> 解决办法：把交易变成“规则系统”，而不是“观点系统”。
+
+### 11.1 价格纪律（核心）
+以成本6.50为基准：
+- **硬止损价：6.18**（6.50 × 0.95）
+  - 触发条件建议用“**收盘价**跌破6.18”而不是盘中刺破（减少噪声误杀）；
+  - 若你无法盯盘，用条件单/提醒。
+- **目标止盈价：7.80**（6.50 × 1.20）
+  - 达到后建议至少分批兑现（例如先卖出1/2锁定收益，再用移动止盈跟随）。
+
+> 为什么要用收盘价确认：该股存在资金博弈与冲击成本，盘中波动可能很大，收盘确认能降低“被洗出”。
+
+### 11.2 仓位与分批（在你“新手”的约束下更稳健）
+你未说明持仓占比。建议你立刻做一个组合层面的上限：
+- 若该股占比已>20%：建议在不亏损/小亏范围内逐步降到10%–20%（降低单一标的冲击）。
+- 若占比≤20%：可保持不动，但**不建议在没有新催化与资金确认前加仓**。
+
+分批原则：
+- **止损不分批**（纪律要硬）；
+- **止盈可分批**：到7.80附近先兑现一部分，剩余部分用移动止盈（例如回撤5%从高点）。
+
+### 11.3 “事件/基本面触发器”：决定你是否继续拿满一年
+因为公司利润弹性主要来自投资端，你的持有应绑定到可跟踪的触发器：
+
+**A. 定期报告触发器（最重要）**
+- 关注“投资收益”“公允价值变动收益”“对联营/合营企业投资收益”三项：
+  - 若连续两个季度显著回落，且主业收入无改善，则一年内达到+20%的概率下降，应更偏向逢反弹减仓。
+- 关注经营现金流是否继续保持稳定净流入（2025Q1已显著改善至3.998亿元）：
+  - 若经营现金流转弱而短债仍高，会提高风险溢价。
+
+**B. 融资与债务触发器**
+- 跟踪公司债/再融资进展（尤其30亿公司债“小公募”注册状态与发行节奏）。
+- 关注“一年内到期非流动负债”是否继续上行。
+
+**C. 资金面触发器（适合一年期交易）**
+- 北向持股与龙虎榜强度：2025-10-31北向在强势日大额买入，12-05出现净卖出；这类行为可作为趋势确认/破坏信号。
+- 两融余额变化：若融资余额持续下降且股价弱势，谨慎。
+
+### 11.4 “做T”不作为必选项（A股T+1对新手不友好）
+你提到不知如何操作。“做T”在A股为T+1，常见为“高抛低吸”但对节奏要求高；在你止损仅5%的约束下，频繁做T反而可能扩大错误。
+
+更适合你的替代方案：
+- **不做T，只做‘一次止损 + 一次止盈’**的规则交易；
+- 若真的想降低成本，用“**上破/回踩确认**”而不是日内追涨杀跌：
+  - 例如突破某一关键压力位并放量后，回踩不破再少量加仓（但前提是你的组合占比允许）。
+
+### 11.5 三种情景推演（带概率的“可交易”框架）
+> 概率为主观估计（已标注为推演），你可据此校准自己的风险偏好。
+
+1) **基准情景（推演：45%）**：主业平稳、投资收益正常化，股价区间震荡
+- 结果：可能围绕6–7附近反复，难自然达到+20%
+- 策略：靠纪律做波段；若上冲7.5–7.8优先止盈。
+
+2) **乐观情景（推演：30%）**：投资端继续贡献、市场风险偏好上升，资金面再现强势
+- 结果：触达7.8甚至接近前高区间（参考一年高点8.40）
+- 策略：7.80分批止盈，剩余仓位移动止盈跟随。
+
+3) **悲观情景（推演：25%）**：投资收益回落 + 资金面转弱/质押与再融资担忧升温
+- 结果：跌破6.18止损线的概率显著上升
+- 策略：严格止损离场；不要“摊平”，因为你的规则只允许5%回撤。
+
+---
+
+## 12. 你可能没想到的替代解法（用于提高达成率/降低路径风险）
+
+### 12.1 用“行业高股息燃气股”替换一部分仓位（降低投资收益波动依赖）
+如果你发现自己更偏好“可预测收益”，大众公用由于股息率显著低于行业均值（0.54% vs 行业2.71%）且利润弹性依赖投资端，未必是最优底仓。
+- 方案：保留少量大众公用作为“弹性仓”，其余换到高股息、更纯粹燃气公用属性标的（需你自行筛选）。
+
+### 12.2 用“规则化退出”替代“判断未来”
+你说“不知道关注哪类驱动”。那就不要试图在一年内建立完整产业认知，直接把策略建立在可观察数据：
+- 业绩（扣非与投资收益拆分）
+- 现金流
+- 债务到期压力
+- 资金面
+
+### 12.3 关注“港股01635”折价/溢价与联动（跨市场情绪指标）
+公司A/H两地上市，若你能同步观察H股走势、成交与公告节奏，常能提前感知风险偏好变化（尤其与“持续关连交易”披露体系相关）。
+
+### 12.4 把“深创投/金融资产”的不确定性转化为“观察清单”
+你不需要猜深创投是否上市，只需：
+- 在定期报告里跟踪“对联营/合营企业投资收益”是否继续显著贡献；
+- 跟踪“公允价值变动收益”是否持续为正；
+- 若两者同步转弱，而估值仍高于行业，则风险回报比下降。
+
+---
+
+## 13. 数据速查表（便于你复盘与跟踪）
+
+### 13.1 利润与现金流
+| 期间 | 营收 | 归母净利 | 扣非归母 | 经营现金流净额 | 关键说明 |
+|---|---:|---:|---:|---:|---|
+| 2024全年 | 62.48亿元 | 2.33亿元 | 2.07亿元（同比-60.32%） | 4.06亿元（或4.055亿） | 主业平稳，扣非下滑 |
+| 2025Q1 | 20.78亿元 | 1.94亿元（同比+601%） | 1.08亿元（同比+224%） | 4.00亿元（同比+207%） | 投资收益/估值驱动 |
+| 2025预告 | — | 3.5–5.0亿元 | 1.85–2.75亿元 | — | 金融资产收益同比增加 |
+
+> 注：表中同时保留了不同披露口径的“4.06亿元/4.055亿元”等近似值；严谨复盘以公司定期报告为准。
+
+### 13.2 资产负债与短期压力（2025-03-31）
+- 总资产232.59亿元；总负债130.13亿元；资产负债率55.95%
+- 一年内到期非流动负债27.48亿元（较2024-12-31的19.21亿元上升）
+
+### 13.3 投资端关键科目（2025-03-31）
+- 长期股权投资74.89亿元
+- 其他权益工具投资0.99亿元
+
+### 13.4 分红
+- 2024拟每股0.036元，派现约1.06亿元，占归母45.59%
+- 近年实施：2025每10股0.36元、2024每10股0.35元、2023每10股0.30元
+
+### 13.5 估值（2026-03-06）
+- PE-TTM(扣非)33.85、PB2.17、股息率0.54%
+- 行业（燃气）PE23.86、PB2.31、股息率2.71%
+
+---
+
+## 14. 你接下来一周可以做的“最小行动清单”（让策略立刻落地）
+
+1) 计算并设置条件单/提醒：
+- 止损收盘价：**6.18**
+- 目标价：**7.80**
+
+2) 打开两个页面加入收藏（用于日常监控，不需要你懂太多）：
+- 东方财富：600635资金流向全览（主力/超大单/大单等）
+- 东方财富：600635估值分析（PE、PB、行业排名）
+
+3) 记录你的仓位占比（非常关键）：
+- 若>20%，先计划在反弹时降风险暴露；
+- 若≤20%，不加仓，等待基本面/资金面确认。
+
+4) 给自己设一个“一年内的时间止损”：
+- 若持有满9–10个月仍未接近7.80，且投资端收益开始回落，就把策略从“等目标”改为“有利润就走/控制回撤”。
+
+---
+
+### 免责声明
+本报告为基于已给研究材料的分析与策略框架输出，不构成投资建议或收益承诺。市场有风险，决策需结合你的整体资产状况与实时披露信息。
 
 
 ## Sources
 
-- https://www.tomshardware.com/reviews/gpu-hierarchy,4388.html
-- https://linustechtips.com/topic/1596724-my-personally-recommended-gpu-from-rtx-5000-series/
-- https://www.forbes.com/sites/moorinsights/2025/01/23/nvidia-rtx-5090-graphics-card-review---get-neural-or-get-left-behind/
-- https://www.neogaf.com/threads/nvidia-official-geforce-rtx-50-vs-rtx-40-benchmarks-15-to-33-performance-uplift-without-dlss-multi-frame-generation.1679651/
-- https://pcoutlet.com/parts/video-cards/rtx-5070-ti-vs-rtx-5080-which-gpu-reigns-supreme
-- https://www.kitguru.net/components/graphic-cards/dominic-moass/nvidia-rtx-5080-review-efficiency-gains-but-a-performance-letdown/all/1/
-- https://forums.pcgamer.com/threads/rtx-5000-series-review-discussion.147293/
-- https://www.techradar.com/computing/gpu/nvidias-new-next-gen-gpu-benchmarks-cause-concern-among-pc-gamers-particularly-with-the-rtx-5080-but-dont-panic-yet
-- https://www.vcsolutions.com/blog/nvidia-rtx-5000-series-performance-unveiled/
-- https://gamersnexus.net/gpus/nvidia-geforce-rtx-5090-founders-edition-review-benchmarks-gaming-thermals-power
-- https://www.tomshardware.com/pc-components/gpus/nvidia-geforce-rtx-5090-review
-- https://www.nvidia.com/en-us/geforce/news/rtx-50-series-graphics-cards-gpu-laptop-announcements/
-- https://pcoutlet.com/parts/video-cards/nvidia-rtx-5000-series
-- https://press.asus.com/news/press-releases/asus-nvidia-geforce-rtx-50-series-graphics-cards/
-- https://galaxy.ai/youtube-summarizer/the-challenges-facing-nvidias-rtx-5000-series-and-amds-rx-8000-cards-VHQkBdeXzT0
-- https://www.xda-developers.com/nvidia-rtx-5000-not-what-you-think/
-- https://hardwarehunt.co.uk/blogs/pc-building-maintenance/amd-vs-nvidia-the-battle-between-radeon-rx-9000-and-rtx-5000?srsltid=AfmBOorJ59FR_9WsA8ol-7k9g_jPvGbbYgFK1MzbvOwRS05HQO8JdjoZ
-- https://hardforum.com/threads/2025-nvidia-versus-amd-ati-rematch-5000-versus-9000-series-edition.2038817/
-- https://9meters.com/technology/graphics/nvidia-shows-off-geforce-rtx-5090-fe-pcb-30-phases-of-stable-575w-power
-- https://www.technology.org/2025/01/20/nvidias-rtx-5090-a-technological-leap-beyond-the-rtx-4090/
+- http://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600635&id=11063993
+- http://vip.stock.finance.sina.com.cn/corp/go.php/vFD_FinancialGuideLine/stockid/600635/displaytype/4.phtml
+- https://stockn.xueqiu.com/SH600635/20250506556938.pdf
+- https://q.stock.sohu.com/cn/600635/?spm=stockpc.cnstock.loginpop.5.17699904000697YsjUJ4
+- https://q.stock.sohu.com/cn/600635/?spm=stockpc.cnstock.loginpop.7.17725824000677YsjUJ4
+- http://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600635&id=10821131
+- http://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600635&id=10821132
+- https://basic.10jqka.com.cn/600635/
+- https://q.stock.sohu.com/cn/600635/index.shtml
+- https://data.eastmoney.com/bbsj/600635.html
+- https://epaper.stcn.com/pic/202504/30/883999271bb7c7999d63dbd99b53a6b5.pdf
+- http://www.hkexnews.hk/listedco/listconews/sehk/2025/1030/2025103000619_c.pdf
+- https://www.dzug.cn/Upload/202504/557d82807268a327.pdf
+- http://static.cninfo.com.cn/finalpage/2025-04-30/1223405738.PDF
+- https://www.hkexnews.hk/listedco/listconews/sehk/2025/0829/2025082901153_c.pdf
+- https://www.sse.com.cn/disclosure/fund/announcement/c/new/2025-09-29/508088_20250929_0TRV.pdf
+- https://pdf.dfcfw.com/pdf/H2_AN202509281752174140_1.pdf
+- http://qcloud.fund.eastmoney.com/gonggao/020306,AN202508291736320053.html
+- https://lshyhbt.com/sitemap/
+- https://www.sohu.com/a/993419481_120169313
+- https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E5%A4%A7%E4%BC%97%E5%85%AC%E7%94%A8%E4%BA%8B%E4%B8%9A%EF%BC%88%E9%9B%86%E5%9B%A2%EF%BC%89%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/15138697
+- https://www.dzug.cn/Upload/202509/acb1237c7efcc978.pdf
+- http://quote.eastmoney.com/concept/sh600635.html?jump_to_web=true
+- https://q.stock.sohu.com/cn/600635/gsjj.shtml
+- https://www.hkexnews.hk/listedco/listconews/sehk/2024/0328/2024032805926_c.pdf
+- https://www.dzug.cn/Upload/202404/e89d22a380cce14e.pdf
+- https://www.dzug.cn/Upload/202503/ba78d45927c15a7.pdf
+- https://www.wuylh.com/zthelper/limituphelper.jsp?code=301162&date=2025-11-21&concept=%E7%BB%BF%E8%89%B2%E7%94%B5%E5%8A%9B
+- https://www.cfi.net.cn/p20260211000843.html
+- http://vip.stock.finance.sina.com.cn/corp/go.php/vISSUE_ShareBonus/stockid/600635.phtml
+- http://f10.eastmoney.com/f10_v2/CompanyBigNews.aspx?code=sh600635
+- https://q.stock.sohu.com/cn/600635/bw_6.shtml
+- https://www.hkexnews.hk/listedco/listconews/sehk/2025/1114/2025111401155_c.pdf
+- http://static.sse.com.cn/disclosure/bond/announcement/company/c/new/2024-01-26/240539_20240126_PH36.pdf
+- https://stockn.xueqiu.com/01635/20230331588503.pdf
+- https://www.dzug.cn/Upload/202104/876360c52610e3c1.pdf
+- https://q.stock.sohu.com/cn/600635/information.shtml?type=200
+- https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600635&id=10449690
+- https://www.dzug.cn/Upload/202404/1489b0227db72ddf.pdf
+- https://www1.hkexnews.hk/listedco/listconews/sehk/2023/0830/2023083001159.pdf
+- http://pdf.dfcfw.com/pdf/H2_AN202003301377237233_01.pdf
+- https://finance.eastmoney.com/a/202601293635368843.html
+- https://wap.stockstar.com/detail/IG2026012900030692
+- http://www.eeo.com.cn/2026/0212/791215.shtml
+- https://caifuhao.eastmoney.com/news/20260129163225387514100?from=guba&name=5Lqs5Lic5ZCn&gubaurl=aHR0cHM6Ly9ndWJhLmVhc3Rtb25leS5jb20vbGlzdCx1c0pELmh0bWw%3D
+- https://finance.ifeng.com/c/8qJRjjI94GW
+- https://www.lixinger.com/equity/company/detail/sh/600635/600635
+- https://eniu.com/gu/sh600635
+- https://q.stock.sohu.com/cn/600635/index.shtml?spm=stockpc.cn_600635.loginpop.5.17725824000717YsjUJ4
+- http://vip.stock.finance.sina.com.cn/corp/go.php/vCB_AllNewsStock/symbol/sh600635.phtml
+- https://pdf.dfcfw.com/pdf/H3_AP202406051635584827_1.pdf
+- https://www.lixinger.com/wiki/stock-collection-value-calculation
+- https://www.lixinger.com/wiki/value-position
+- https://www.lixinger.com/wiki/pe-ttm
+- https://www.lixinger.com/wiki/list
+- https://eniu.com/
+- https://eniu.com/gu/sz300059
+- https://eniu.com/gu/sz002236/pe_ttm
+- https://eniu.com/gu/sh600718
+- https://stcn.com/article/detail/3619305.html
+- http://www.aastocks.com/TC/mobile/news.aspx?newsid=GLH5160345N&newstype=61&newssource=GLH
+- https://www.laohu8.com/m/news/2607033405
+- https://q.stock.sohu.com/cn/600635/
+- https://www1.hkexnews.hk/listedco/listconews/sehk/2022/0330/2022033003069_c.pdf
+- https://data.eastmoney.com/zjlx/600635.html
+- https://static.sse.com.cn/disclosure/bond/announcement/company/c/new/2025-02-21/242388_20250221_3CR2.pdf
+- http://quote.eastmoney.com/sh600635.html?jump_to_web=true
+- https://data.eastmoney.com/gzfx/detail/600635.html
+- https://data.eastmoney.com/hsgtcg/
+- http://static.cninfo.com.cn/finalpage/2026-03-02/1224990742.PDF
+- https://akshare.akfamily.xyz/data/index.html
+- https://static-web.stcn.com/upload/2026/0226/22/69a0565bd49a97e98d21.pdf
+- https://paper.cnstock.com/html/2026-02/03/node_63.htm
+- https://q.stock.sohu.com/cn/600635/lhb.shtml
+- https://stock.eastmoney.com/a/202510313551960611.html
+- https://data.eastmoney.com/stock/lhb/600635.html
+- https://wap.eastmoney.com/quote/stock/1.600635.html
+- https://bj.bcebos.com/paddlenlp/data/simnet_vocab.txt

@@ -1,4 +1,4 @@
-import FirecrawlApp, { SearchResponse } from '@mendable/firecrawl-js';
+import FirecrawlApp from '@mendable/firecrawl-js';
 import { generateObject } from 'ai';
 import { compact } from 'lodash-es';
 import pLimit from 'p-limit';
@@ -26,15 +26,106 @@ type ResearchResult = {
   visitedUrls: string[];
 };
 
-// increase this if you have higher API rate limits
-const ConcurrencyLimit = Number(process.env.FIRECRAWL_CONCURRENCY) || 2;
+type SearchDocument = {
+  url?: string;
+  markdown?: string;
+};
 
-// Initialize Firecrawl with optional API key and optional base url
+type SearchResult = {
+  data: SearchDocument[];
+};
+
+type SearchProvider = 'firecrawl' | 'tavily';
+
+const rawSearchProvider = (process.env.SEARCH_PROVIDER || 'tavily').toLowerCase();
+const searchProvider = rawSearchProvider as SearchProvider;
+const SearchResultLimit = Number(process.env.SEARCH_RESULTS_LIMIT) || 5;
+const SearchTimeoutMs = Number(process.env.SEARCH_TIMEOUT_MS) || 15_000;
+const ConcurrencyLimit =
+  Number(process.env.SEARCH_CONCURRENCY || process.env.FIRECRAWL_CONCURRENCY) ||
+  2;
+const TavilyApiUrl =
+  process.env.TAVILY_BASE_URL || 'https://api.tavily.com/search';
 
 const firecrawl = new FirecrawlApp({
   apiKey: process.env.FIRECRAWL_KEY ?? '',
   apiUrl: process.env.FIRECRAWL_BASE_URL,
 });
+
+function getValidatedSearchProvider() {
+  if (searchProvider !== 'firecrawl' && searchProvider !== 'tavily') {
+    throw new Error(
+      `Unsupported SEARCH_PROVIDER: "${process.env.SEARCH_PROVIDER}". Use "firecrawl" or "tavily".`,
+    );
+  }
+  return searchProvider;
+}
+
+async function searchWithFirecrawl(query: string): Promise<SearchResult> {
+  const result = await firecrawl.search(query, {
+    timeout: SearchTimeoutMs,
+    limit: SearchResultLimit,
+    scrapeOptions: { formats: ['markdown'] },
+  });
+
+  return result;
+}
+
+async function searchWithTavily(query: string): Promise<SearchResult> {
+  if (!process.env.TAVILY_KEY) {
+    throw new Error('TAVILY_KEY is required when SEARCH_PROVIDER=tavily');
+  }
+
+  const response = await fetch(TavilyApiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      api_key: process.env.TAVILY_KEY,
+      query,
+      search_depth: process.env.TAVILY_SEARCH_DEPTH || 'advanced',
+      include_raw_content: true,
+      include_answer: false,
+      include_images: false,
+      max_results: SearchResultLimit,
+    }),
+    signal: AbortSignal.timeout(SearchTimeoutMs),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Tavily search failed (${response.status}): ${errorText}`);
+  }
+
+  const body = (await response.json()) as {
+    results?: Array<{
+      title?: string;
+      url?: string;
+      content?: string;
+      raw_content?: string;
+    }>;
+  };
+
+  const data = (body.results || []).map(item => {
+    const content = item.raw_content || item.content || '';
+    const titlePrefix = item.title ? `# ${item.title}\n\n` : '';
+    return {
+      url: item.url,
+      markdown: `${titlePrefix}${content}`.trim(),
+    };
+  });
+
+  return { data };
+}
+
+async function runSearch(query: string): Promise<SearchResult> {
+  const provider = getValidatedSearchProvider();
+  if (provider === 'tavily') {
+    return searchWithTavily(query);
+  }
+  return searchWithFirecrawl(query);
+}
 
 // take en user query, return a list of SERP queries
 async function generateSerpQueries({
@@ -85,12 +176,12 @@ async function processSerpResult({
   numFollowUpQuestions = 3,
 }: {
   query: string;
-  result: SearchResponse;
+  result: SearchResult;
   numLearnings?: number;
   numFollowUpQuestions?: number;
 }) {
-  const contents = compact(result.data.map(item => item.markdown)).map(content =>
-    trimPrompt(content, 25_000),
+  const contents = compact(result.data.map(item => item.markdown)).map(
+    content => trimPrompt(content, 25_000),
   );
   log(`Ran ${query}, found ${contents.length} contents`);
 
@@ -104,7 +195,9 @@ async function processSerpResult({
         .join('\n')}</contents>`,
     ),
     schema: z.object({
-      learnings: z.array(z.string()).describe(`List of learnings, max of ${numLearnings}`),
+      learnings: z
+        .array(z.string())
+        .describe(`List of learnings, max of ${numLearnings}`),
       followUpQuestions: z
         .array(z.string())
         .describe(
@@ -137,7 +230,9 @@ export async function writeFinalReport({
       `Given the following prompt from the user, write a final report on the topic using the learnings from research. Make it as as detailed as possible, aim for 3 or more pages, include ALL the learnings from research:\n\n<prompt>${prompt}</prompt>\n\nHere are all the learnings from previous research:\n\n<learnings>\n${learningsString}\n</learnings>`,
     ),
     schema: z.object({
-      reportMarkdown: z.string().describe('Final report on the topic in Markdown'),
+      reportMarkdown: z
+        .string()
+        .describe('Final report on the topic in Markdown'),
     }),
   });
 
@@ -166,7 +261,9 @@ export async function writeFinalAnswer({
     schema: z.object({
       exactAnswer: z
         .string()
-        .describe('The final answer, make it short and concise, just the answer, no other text'),
+        .describe(
+          'The final answer, make it short and concise, just the answer, no other text',
+        ),
     }),
   });
 
@@ -188,6 +285,8 @@ export async function deepResearch({
   visitedUrls?: string[];
   onProgress?: (progress: ResearchProgress) => void;
 }): Promise<ResearchResult> {
+  const provider = getValidatedSearchProvider();
+
   const progress: ResearchProgress = {
     currentDepth: depth,
     totalDepth: depth,
@@ -214,16 +313,13 @@ export async function deepResearch({
   });
 
   const limit = pLimit(ConcurrencyLimit);
+  log(`Using search provider: ${provider}`);
 
   const results = await Promise.all(
     serpQueries.map(serpQuery =>
       limit(async () => {
         try {
-          const result = await firecrawl.search(serpQuery.query, {
-            timeout: 15000,
-            limit: 5,
-            scrapeOptions: { formats: ['markdown'] },
-          });
+          const result = await runSearch(serpQuery.query);
 
           // Collect URLs from this search
           const newUrls = compact(result.data.map(item => item.url));
@@ -239,7 +335,9 @@ export async function deepResearch({
           const allUrls = [...visitedUrls, ...newUrls];
 
           if (newDepth > 0) {
-            log(`Researching deeper, breadth: ${newBreadth}, depth: ${newDepth}`);
+            log(
+              `Researching deeper, breadth: ${newBreadth}, depth: ${newDepth}`,
+            );
 
             reportProgress({
               currentDepth: newDepth,

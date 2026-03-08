@@ -78,7 +78,8 @@ flowchart TB
 
 - Node.js environment
 - API keys for:
-  - Firecrawl API (for web search and content extraction)
+  - Firecrawl API (if `SEARCH_PROVIDER=firecrawl`)
+  - Tavily API (if `SEARCH_PROVIDER=tavily`)
   - OpenAI API (for o3 mini model)
 
 ## Setup
@@ -95,17 +96,31 @@ npm install
 3. Set up environment variables in a `.env.local` file:
 
 ```bash
+SEARCH_PROVIDER="tavily" # default, firecrawl | tavily
+# SEARCH_CONCURRENCY="2"
+# SEARCH_RESULTS_LIMIT="5"
+# SEARCH_TIMEOUT_MS="15000"
+
 FIRECRAWL_KEY="your_firecrawl_key"
 # If you want to use your self-hosted Firecrawl, add the following below:
 # FIRECRAWL_BASE_URL="http://localhost:3002"
 
+# If you want to use Firecrawl instead, set:
+# SEARCH_PROVIDER="firecrawl"
+# FIRECRAWL_KEY="your_firecrawl_key"
+#
+# If you want to use Tavily, set:
+# TAVILY_KEY="tvly-your_tavily_key"
+# TAVILY_BASE_URL="https://api.tavily.com/search"
+# TAVILY_SEARCH_DEPTH="advanced"
+
 OPENAI_KEY="your_openai_key"
 ```
 
-To use local LLM, comment out `OPENAI_KEY` and instead uncomment `OPENAI_ENDPOINT` and `OPENAI_MODEL`:
+To use local LLM, comment out `OPENAI_KEY` and instead uncomment `OPENAI_ENDPOINT` and `CUSTOM_MODEL`:
 
 - Set `OPENAI_ENDPOINT` to the address of your local server (eg."http://localhost:1234/v1")
-- Set `OPENAI_MODEL` to the name of the model loaded in your local server.
+- Set `CUSTOM_MODEL` to the name of the model loaded in your local server.
 
 ### Docker
 
@@ -148,13 +163,15 @@ The system will then:
 3. Recursively explore deeper based on findings
 4. Generate a comprehensive markdown report
 
-The final report will be saved as `report.md` or `answer.md` in your working directory, depending on which modes you selected.
+The final output is saved with a topic-based, non-overwriting file name in your working directory, for example:
+- `ai-chip-trends-report-2026-03-08T16-20-00Z.md`
+- `ai-chip-trends-answer-2026-03-08T16-20-00Z.md`
 
 ### Concurrency
 
-If you have a paid version of Firecrawl or a local version, feel free to increase the `ConcurrencyLimit` by setting the `CONCURRENCY_LIMIT` environment variable so it runs faster.
+You can increase concurrency by setting `SEARCH_CONCURRENCY` (or the legacy `FIRECRAWL_CONCURRENCY`) when your search provider quota allows it.
 
-If you have a free version, you may sometimes run into rate limit errors, you can reduce the limit to 1 (but it will run a lot slower).
+If you use a free-tier provider, you may hit rate limits; set concurrency to `1` to reduce failures (slower but more stable).
 
 ### DeepSeek R1
 
