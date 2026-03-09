@@ -79,7 +79,8 @@ flowchart TB
 - Node.js environment
 - API keys for:
   - Firecrawl API (if `SEARCH_PROVIDER=firecrawl`)
-  - Tavily API (if `SEARCH_PROVIDER=tavily`)
+  - Tavily API (if `SEARCH_PROVIDER=tavily` or `tavily+exa-mcp`)
+  - Exa MCP runtime (if `SEARCH_PROVIDER=exa-mcp` or `tavily+exa-mcp`)
   - OpenAI API (for o3 mini model)
 
 ## Setup
@@ -96,10 +97,12 @@ npm install
 3. Set up environment variables in a `.env.local` file:
 
 ```bash
-SEARCH_PROVIDER="tavily" # default, firecrawl | tavily
+SEARCH_PROVIDER="tavily+exa-mcp" # default, firecrawl | tavily | exa-mcp | tavily+exa-mcp
 # SEARCH_CONCURRENCY="2"
 # SEARCH_RESULTS_LIMIT="5"
 # SEARCH_TIMEOUT_MS="15000"
+# SEARCH_SAME_URL_SIMILARITY_THRESHOLD="0.9"
+# SEARCH_CROSS_URL_SIMILARITY_THRESHOLD="0.95"
 
 FIRECRAWL_KEY="your_firecrawl_key"
 # If you want to use your self-hosted Firecrawl, add the following below:
@@ -113,6 +116,12 @@ FIRECRAWL_KEY="your_firecrawl_key"
 # TAVILY_KEY="tvly-your_tavily_key"
 # TAVILY_BASE_URL="https://api.tavily.com/search"
 # TAVILY_SEARCH_DEPTH="advanced"
+#
+# If you want to use Exa MCP, set (defaults already match this):
+# EXA_MCP_COMMAND="npx"
+# EXA_MCP_ARGS="-y mcp-remote https://mcp.exa.ai/mcp"
+# EXA_MCP_TIMEOUT_MS="25000"
+# EXA_CONTEXT_MAX_CHARACTERS="12000"
 
 OPENAI_KEY="your_openai_key"
 ```
@@ -163,7 +172,14 @@ The system will then:
 3. Recursively explore deeper based on findings
 4. Generate a comprehensive markdown report
 
+When using `tavily+exa-mcp`, the system runs both providers for the same query and merges results with two-level deduplication:
+
+- URL-level dedupe (same URL)
+- Content-similarity dedupe (different URLs but nearly identical content)
+- Same URL with significantly different content is preserved as separate entries
+
 The final output is saved with a topic-based, non-overwriting file name in your working directory, for example:
+
 - `ai-chip-trends-report-2026-03-08T16-20-00Z.md`
 - `ai-chip-trends-answer-2026-03-08T16-20-00Z.md`
 
@@ -215,7 +231,7 @@ CUSTOM_MODEL="custom_model"
    - Compiles all findings into a comprehensive markdown report
    - Includes all sources and references
    - Organizes information in a clear, readable format
-  
+
 ## Community implementations
 
 **Python**: https://github.com/Finance-LLMs/deep-research-python

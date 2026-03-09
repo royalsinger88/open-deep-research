@@ -1,4 +1,6 @@
 import FirecrawlApp from '@mendable/firecrawl-js';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { generateObject } from 'ai';
 import { compact } from 'lodash-es';
 import pLimit from 'p-limit';
@@ -29,33 +31,232 @@ type ResearchResult = {
 type SearchDocument = {
   url?: string;
   markdown?: string;
+  provider?: string;
 };
 
 type SearchResult = {
   data: SearchDocument[];
 };
 
-type SearchProvider = 'firecrawl' | 'tavily';
+type SearchProvider = 'firecrawl' | 'tavily' | 'exa-mcp' | 'tavily+exa-mcp';
 
-const rawSearchProvider = (process.env.SEARCH_PROVIDER || 'tavily').toLowerCase();
+const rawSearchProvider = (
+  process.env.SEARCH_PROVIDER || 'tavily+exa-mcp'
+).toLowerCase();
 const searchProvider = rawSearchProvider as SearchProvider;
 const SearchResultLimit = Number(process.env.SEARCH_RESULTS_LIMIT) || 5;
 const SearchTimeoutMs = Number(process.env.SEARCH_TIMEOUT_MS) || 15_000;
 const ConcurrencyLimit =
   Number(process.env.SEARCH_CONCURRENCY || process.env.FIRECRAWL_CONCURRENCY) ||
   2;
+const ExaMcpTimeoutMs = Number(process.env.EXA_MCP_TIMEOUT_MS) || 25_000;
+const ExaContextMaxCharacters =
+  Number(process.env.EXA_CONTEXT_MAX_CHARACTERS) || 12_000;
 const TavilyApiUrl =
   process.env.TAVILY_BASE_URL || 'https://api.tavily.com/search';
+const ExaMcpCommand = process.env.EXA_MCP_COMMAND || 'npx';
+const ExaMcpArgsDefault = '-y mcp-remote https://mcp.exa.ai/mcp';
+const ExaMcpArgsText = process.env.EXA_MCP_ARGS || ExaMcpArgsDefault;
+const SameUrlSimilarityThreshold =
+  Number(process.env.SEARCH_SAME_URL_SIMILARITY_THRESHOLD) || 0.9;
+const CrossUrlSimilarityThreshold =
+  Number(process.env.SEARCH_CROSS_URL_SIMILARITY_THRESHOLD) || 0.95;
 
 const firecrawl = new FirecrawlApp({
   apiKey: process.env.FIRECRAWL_KEY ?? '',
   apiUrl: process.env.FIRECRAWL_BASE_URL,
 });
 
+function parseShellArgs(input: string): string[] {
+  const args: string[] = [];
+  let current = '';
+  let quote: '"' | "'" | null = null;
+
+  for (let i = 0; i < input.length; i += 1) {
+    const ch = input[i] || '';
+    if (!quote && (ch === '"' || ch === "'")) {
+      quote = ch;
+      continue;
+    }
+    if (quote && ch === quote) {
+      quote = null;
+      continue;
+    }
+    if (!quote && /\s/.test(ch)) {
+      if (current) {
+        args.push(current);
+        current = '';
+      }
+      continue;
+    }
+    current += ch;
+  }
+  if (current) {
+    args.push(current);
+  }
+  return args;
+}
+
+function normalizeUrl(url?: string): string {
+  if (!url) {
+    return '';
+  }
+  try {
+    const u = new URL(url);
+    u.hash = '';
+    const normalizedPath = u.pathname.replace(/\/+$/, '');
+    const normalized = `${u.protocol}//${u.host.toLowerCase()}${normalizedPath}${u.search}`;
+    return normalized || url.trim();
+  } catch {
+    return url.trim();
+  }
+}
+
+function normalizeContent(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function buildNgramSet(text: string, n = 5): Set<string> {
+  const compactText = normalizeContent(text).replace(/\s+/g, '');
+  if (!compactText) {
+    return new Set();
+  }
+  if (compactText.length <= n) {
+    return new Set([compactText]);
+  }
+  const grams = new Set<string>();
+  for (let i = 0; i <= compactText.length - n; i += 1) {
+    grams.add(compactText.slice(i, i + n));
+    if (grams.size >= 4000) {
+      break;
+    }
+  }
+  return grams;
+}
+
+function calcContentSimilarity(a: string, b: string): number {
+  const na = normalizeContent(a);
+  const nb = normalizeContent(b);
+  if (!na || !nb) {
+    return 0;
+  }
+  if (na === nb) {
+    return 1;
+  }
+  const setA = buildNgramSet(na);
+  const setB = buildNgramSet(nb);
+  if (!setA.size || !setB.size) {
+    return 0;
+  }
+  let intersection = 0;
+  for (const gram of setA) {
+    if (setB.has(gram)) {
+      intersection += 1;
+    }
+  }
+  const union = setA.size + setB.size - intersection;
+  if (union <= 0) {
+    return 0;
+  }
+  return intersection / union;
+}
+
+function mergeProviders(left?: string, right?: string): string | undefined {
+  const providers = new Set(
+    [left, right]
+      .flatMap(item => (item ? item.split(',') : []))
+      .map(item => item.trim())
+      .filter(Boolean),
+  );
+  if (!providers.size) {
+    return undefined;
+  }
+  return [...providers].sort().join(',');
+}
+
+function choosePreferredDoc(
+  a: SearchDocument,
+  b: SearchDocument,
+): SearchDocument {
+  const aLen = (a.markdown || '').length;
+  const bLen = (b.markdown || '').length;
+  const chosen = bLen > aLen ? b : a;
+  return {
+    ...chosen,
+    url: chosen.url || a.url || b.url,
+    provider: mergeProviders(a.provider, b.provider),
+  };
+}
+
+function dedupeSearchDocuments(docs: SearchDocument[]): SearchDocument[] {
+  const unique: SearchDocument[] = [];
+
+  for (const doc of docs) {
+    const current = {
+      ...doc,
+      markdown: (doc.markdown || '').trim(),
+      url: doc.url?.trim(),
+    };
+    if (!current.markdown) {
+      continue;
+    }
+
+    const currentUrl = normalizeUrl(current.url);
+    const currentText = current.markdown;
+
+    let merged = false;
+
+    for (let i = 0; i < unique.length; i += 1) {
+      const existing = unique[i]!;
+      const existingUrl = normalizeUrl(existing.url);
+      const similarity = calcContentSimilarity(
+        existing.markdown || '',
+        currentText,
+      );
+
+      if (
+        currentUrl &&
+        existingUrl &&
+        currentUrl === existingUrl &&
+        similarity >= SameUrlSimilarityThreshold
+      ) {
+        unique[i] = choosePreferredDoc(existing, current);
+        merged = true;
+        break;
+      }
+
+      if (
+        (!currentUrl || !existingUrl || currentUrl !== existingUrl) &&
+        similarity >= CrossUrlSimilarityThreshold
+      ) {
+        unique[i] = choosePreferredDoc(existing, current);
+        merged = true;
+        break;
+      }
+    }
+
+    if (!merged) {
+      unique.push(current);
+    }
+  }
+
+  return unique;
+}
+
 function getValidatedSearchProvider() {
-  if (searchProvider !== 'firecrawl' && searchProvider !== 'tavily') {
+  if (
+    searchProvider !== 'firecrawl' &&
+    searchProvider !== 'tavily' &&
+    searchProvider !== 'exa-mcp' &&
+    searchProvider !== 'tavily+exa-mcp'
+  ) {
     throw new Error(
-      `Unsupported SEARCH_PROVIDER: "${process.env.SEARCH_PROVIDER}". Use "firecrawl" or "tavily".`,
+      `Unsupported SEARCH_PROVIDER: "${process.env.SEARCH_PROVIDER}". Use "firecrawl", "tavily", "exa-mcp", or "tavily+exa-mcp".`,
     );
   }
   return searchProvider;
@@ -113,16 +314,160 @@ async function searchWithTavily(query: string): Promise<SearchResult> {
     return {
       url: item.url,
       markdown: `${titlePrefix}${content}`.trim(),
+      provider: 'tavily',
     };
   });
 
   return { data };
 }
 
+function parseExaSearchText(text: string): SearchDocument[] {
+  if (!text.trim()) {
+    return [];
+  }
+
+  const parsed: SearchDocument[] = [];
+  const pattern =
+    /Title:\s*([\s\S]*?)\nAuthor:\s*([\s\S]*?)\nPublished Date:\s*([\s\S]*?)\nURL:\s*(https?:\/\/\S+)\nText:\s*([\s\S]*?)(?=\nTitle:\s*|$)/g;
+
+  let match: RegExpExecArray | null = pattern.exec(text);
+  while (match) {
+    const title = match[1]?.trim() || '';
+    const url = match[4]?.trim() || '';
+    const body = match[5]?.trim() || '';
+    const markdown = `${title ? `# ${title}\n\n` : ''}${body}`.trim();
+    if (markdown) {
+      parsed.push({
+        url,
+        markdown,
+        provider: 'exa-mcp',
+      });
+    }
+    match = pattern.exec(text);
+  }
+
+  if (parsed.length > 0) {
+    return parsed;
+  }
+
+  const urls = text.match(/https?:\/\/\S+/g) || [];
+  if (!urls.length) {
+    return [{ markdown: text.trim(), provider: 'exa-mcp' }];
+  }
+
+  return urls.map(url => ({
+    url,
+    markdown: text.trim(),
+    provider: 'exa-mcp',
+  }));
+}
+
+async function searchWithExaMcp(query: string): Promise<SearchResult> {
+  const transport = new StdioClientTransport({
+    command: ExaMcpCommand,
+    args: parseShellArgs(ExaMcpArgsText),
+    stderr: 'pipe',
+  });
+
+  const client = new Client(
+    {
+      name: 'deep-research-exa-client',
+      version: '0.0.1',
+    },
+    {
+      capabilities: {},
+    },
+  );
+
+  let timeoutHandle: NodeJS.Timeout | undefined;
+  const timeoutError = new Promise<never>((_, reject) => {
+    timeoutHandle = setTimeout(() => {
+      reject(new Error(`Exa MCP timeout after ${ExaMcpTimeoutMs}ms`));
+    }, ExaMcpTimeoutMs);
+  });
+
+  const run = async () => {
+    await client.connect(transport);
+    const result = (await client.callTool({
+      name: 'web_search_exa',
+      arguments: {
+        query,
+        numResults: SearchResultLimit,
+        contextMaxCharacters: ExaContextMaxCharacters,
+      },
+    })) as {
+      content?: Array<{
+        type?: string;
+        text?: string;
+      }>;
+    };
+
+    const texts = (result.content || [])
+      .filter(
+        (item): item is { type: string; text?: string } => item.type === 'text',
+      )
+      .map(item => item.text || '')
+      .filter(Boolean);
+
+    const data = dedupeSearchDocuments(
+      texts.flatMap(text => parseExaSearchText(text)),
+    );
+
+    return { data };
+  };
+
+  try {
+    return await Promise.race([run(), timeoutError]);
+  } finally {
+    if (timeoutHandle) {
+      clearTimeout(timeoutHandle);
+    }
+    await client.close().catch(() => undefined);
+  }
+}
+
+function mergeSearchResults(results: SearchResult[]): SearchResult {
+  return {
+    data: dedupeSearchDocuments(results.flatMap(result => result.data)),
+  };
+}
+
 async function runSearch(query: string): Promise<SearchResult> {
   const provider = getValidatedSearchProvider();
   if (provider === 'tavily') {
     return searchWithTavily(query);
+  }
+  if (provider === 'exa-mcp') {
+    return searchWithExaMcp(query);
+  }
+  if (provider === 'tavily+exa-mcp') {
+    const results = await Promise.allSettled([
+      searchWithTavily(query),
+      searchWithExaMcp(query),
+    ]);
+
+    const successes = results
+      .filter(
+        (item): item is PromiseFulfilledResult<SearchResult> =>
+          item.status === 'fulfilled',
+      )
+      .map(item => item.value);
+
+    const failures = results
+      .filter(
+        (item): item is PromiseRejectedResult => item.status === 'rejected',
+      )
+      .map(item => item.reason);
+
+    failures.forEach(error => {
+      log(`Search provider failed for query "${query}":`, error);
+    });
+
+    if (successes.length === 0) {
+      throw new Error(`All search providers failed for query: ${query}`);
+    }
+
+    return mergeSearchResults(successes);
   }
   return searchWithFirecrawl(query);
 }
@@ -180,9 +525,15 @@ async function processSerpResult({
   numLearnings?: number;
   numFollowUpQuestions?: number;
 }) {
-  const contents = compact(result.data.map(item => item.markdown)).map(
-    content => trimPrompt(content, 25_000),
-  );
+  const contents = compact(
+    result.data.map(item => {
+      const providerTag = item.provider ? `provider=${item.provider}` : '';
+      const urlTag = item.url ? `url=${item.url}` : '';
+      const metadata = [providerTag, urlTag].filter(Boolean).join(', ');
+      const contentPrefix = metadata ? `[source ${metadata}]\n` : '';
+      return item.markdown ? `${contentPrefix}${item.markdown}` : '';
+    }),
+  ).map(content => trimPrompt(content, 25_000));
   log(`Ran ${query}, found ${contents.length} contents`);
 
   const res = await generateObject({
